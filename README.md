@@ -1,6 +1,8 @@
 # DLTianDiTuApi
 天地图WEB API服务封装
 
+[![](https://jitpack.io/v/D10NGYANG/DLTianDiTuApi.svg)](https://jitpack.io/#D10NGYANG/DLTianDiTuApi)
+
 # 使用说明
 1. Add the JitPack repository to your build file
 ```build.gradle
