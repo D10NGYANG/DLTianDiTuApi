@@ -1,6 +1,7 @@
 package com.d10ng.tianditu.api
 
 import com.d10ng.http.Api
+import com.d10ng.http.Http
 import com.d10ng.tianditu.TianDiTuApiManager
 import com.d10ng.tianditu.bean.Geocode
 import com.d10ng.tianditu.bean.LocationSearch
@@ -8,6 +9,8 @@ import com.d10ng.tianditu.bean.ReGeocode
 import com.d10ng.tianditu.constant.TokenType
 import io.ktor.client.call.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
@@ -21,7 +24,7 @@ object TianDiTuApi {
     suspend fun getGeocode(
         keyWord: String
     ): Geocode? = Api.handler {
-        it.get("${TianDiTuApiManager.baseUrl}/geocoder") {
+        val text = it.get("${TianDiTuApiManager.baseUrl}/geocoder") {
             if (TianDiTuApiManager.getTokenType() != TokenType.SERVER) {
                 headers {
                     append("User-Agent", "Mozilla/5.0")
@@ -31,7 +34,8 @@ object TianDiTuApi {
                 put("keyWord", keyWord)
             }.toString())
             parameter("tk", TianDiTuApiManager.getToken())
-        }.body()
+        }.bodyAsText()
+        Http.json.decodeFromString(text)
     }
 
     /**
@@ -44,7 +48,7 @@ object TianDiTuApi {
         lng: Double,
         lat: Double
     ): ReGeocode? = Api.handler {
-        it.get("${TianDiTuApiManager.baseUrl}/geocoder") {
+        val text = it.get("${TianDiTuApiManager.baseUrl}/geocoder") {
             if (TianDiTuApiManager.getTokenType() != TokenType.SERVER) {
                 headers {
                     append("User-Agent", "Mozilla/5.0")
@@ -57,7 +61,8 @@ object TianDiTuApi {
             }.toString())
             parameter("type", "geocode")
             parameter("tk", TianDiTuApiManager.getToken())
-        }.body()
+        }.bodyAsText()
+        Http.json.decodeFromString(text)
     }
 
     /**
