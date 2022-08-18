@@ -14,7 +14,7 @@ class Test {
     fun test() {
         Http.init(TianDiTuApiManager.baseUrl, true)
 
-        TianDiTuApiManager.init("5bb740ffd3a80fb3963e022454eca6e2", TokenType.WEB)
+        TianDiTuApiManager.init("fb606872d339bbfe541c04775909d279", TokenType.ANDROID)
 
         println(typeInfo<Geocode>())
 
