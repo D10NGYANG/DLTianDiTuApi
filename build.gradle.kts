@@ -1,15 +1,18 @@
+val bds100MavenUsername: String by project
+val bds100MavenPassword: String by project
+
 plugins {
-    kotlin("multiplatform") version "1.7.0"
-    kotlin("plugin.serialization") version "1.7.0"
+    kotlin("multiplatform") version "1.7.20"
+    kotlin("plugin.serialization") version "1.7.20"
     id("maven-publish")
 }
 
 group = "com.github.D10NGYANG"
-version = "0.3"
+version = "0.4"
 
 repositories {
     mavenCentral()
-    maven("https://jitpack.io" )
+    maven("https://raw.githubusercontent.com/D10NGYANG/maven-repo/main/repository")
 }
 
 kotlin {
@@ -24,19 +27,34 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib"))
                 // 协程
-                val kotlin_coroutines_ver = "1.6.4"
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlin_coroutines_ver")
+                val kotlinCoroutinesVer = "1.6.4"
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVer")
                 // 网络请求封装库
-                implementation("com.github.D10NGYANG:DLHttpUtil:0.6")
+                implementation("com.github.D10NGYANG:DLHttpUtil:0.7")
                 // JSON序列化
-                val kotlin_serialization_json = "1.3.3"
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlin_serialization_json")
+                val kotlinSerializationJsonVer = "1.4.1"
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationJsonVer")
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
             }
+        }
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            url = uri("/Users/d10ng/project/kotlin/maven-repo/repository")
+        }
+        maven {
+            credentials {
+                username = bds100MavenUsername
+                password = bds100MavenPassword
+            }
+            setUrl("https://nexus.bds100.com/repository/maven-releases/")
         }
     }
 }
