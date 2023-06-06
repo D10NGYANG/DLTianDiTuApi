@@ -2,13 +2,13 @@ val bds100MavenUsername: String by project
 val bds100MavenPassword: String by project
 
 plugins {
-    kotlin("multiplatform") version "1.8.10"
-    kotlin("plugin.serialization") version "1.8.10"
+    kotlin("multiplatform") version "1.8.21"
+    kotlin("plugin.serialization") version "1.8.21"
     id("maven-publish")
 }
 
 group = "com.github.D10NGYANG"
-version = "0.5.0"
+version = "0.5.1"
 
 repositories {
     mavenCentral()
@@ -17,9 +17,8 @@ repositories {
 
 kotlin {
     jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = "1.8"
-        }
+        jvmToolchain(8)
+        withJava()
     }
 
     sourceSets {
@@ -27,12 +26,12 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib"))
                 // 协程
-                val kotlinCoroutinesVer = "1.6.4"
+                val kotlinCoroutinesVer = "1.7.1"
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVer")
                 // 网络请求封装库
-                implementation("com.github.D10NGYANG:DLHttpUtil:0.8.0")
+                implementation("com.github.D10NGYANG:DLHttpUtil:0.8.2")
                 // JSON序列化
-                val kotlinSerializationJsonVer = "1.5.0"
+                val kotlinSerializationJsonVer = "1.5.1"
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationJsonVer")
             }
         }

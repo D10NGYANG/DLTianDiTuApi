@@ -15,13 +15,13 @@ allprojects {
 ```build.gradle
 dependencies {
   // 天地图API
-  implementation 'com.github.D10NGYANG:DLTianDiTuApi:0.5.0'
+  implementation 'com.github.D10NGYANG:DLTianDiTuApi:0.5.1'
   // 网络请求封装库
-  implementation "com.github.D10NGYANG:DLHttpUtil:0.8.0"
+  implementation "com.github.D10NGYANG:DLHttpUtil:0.8.2"
   // 协程
-  implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+  implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1"
   // JSON序列化
-  implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0"
+  implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
 }
 ```
 3. 混淆
