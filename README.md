@@ -2,7 +2,7 @@
 天地图WEB API服务封装
 
 # 使用说明
-1. Add the JitPack repository to your build file
+1. 添加仓库
 ```build.gradle
 allprojects {
   repositories {
@@ -11,15 +11,15 @@ allprojects {
   }
 }
 ```
-2. Add the dependency
+2. 添加依赖
 ```build.gradle
 dependencies {
   // 天地图API
-  implementation 'com.github.D10NGYANG:DLTianDiTuApi:0.5.1'
+  implementation 'com.github.D10NGYANG:DLTianDiTuApi:0.5.2'
   // 网络请求封装库
-  implementation "com.github.D10NGYANG:DLHttpUtil:0.8.2"
+  implementation "com.github.D10NGYANG:DLHttpUtil:0.8.3"
   // 协程
-  implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1"
+  implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.2"
   // JSON序列化
   implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1"
 }
