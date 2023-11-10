@@ -15,9 +15,9 @@ allprojects {
 ```build.gradle
 dependencies {
   // 天地图API
-  implementation 'com.github.D10NGYANG:DLTianDiTuApi:0.5.4'
+  implementation 'com.github.D10NGYANG:DLTianDiTuApi:0.5.5'
   // 网络请求封装库
-  implementation "com.github.D10NGYANG:DLHttpUtil:0.8.5"
+  implementation "com.github.D10NGYANG:DLHttpUtil:0.9.0"
   // 协程
   implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3"
   // JSON序列化

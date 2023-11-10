@@ -12,11 +12,9 @@ class Test {
 
     @Test
     fun test() {
-        Http.init(TianDiTuApiManager.baseUrl, true)
+        Http.init(true)
 
         TianDiTuApiManager.init("fb606872d339bbfe541c04775909d279", TokenType.ANDROID)
-
-        println(typeInfo<Geocode>())
 
         runBlocking {
             launch {
