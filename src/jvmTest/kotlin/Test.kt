@@ -20,12 +20,10 @@ class Test {
                     println(it)
                 }
             }
-            val geocode = TianDiTuApi.getGeocode("佛山")
-            println(geocode)
-            val reGeocode = TianDiTuApi.getReGeocode(113.09728389219077, 23.103711052836463)
-            println(reGeocode)
-            val location = TianDiTuApi.getLocationSearchV2("广东北京路")
-            println(location)
+            println(TianDiTuApi.getGeocode("佛山"))
+            println(TianDiTuApi.getReGeocode(113.09728, 23.10371))
+            println(TianDiTuApi.getLocationSearchV2("丰田"))
+            println(TianDiTuApi.getPerimeterSearch("丰田",113.09728, 23.10371))
             job.cancel()
         }
     }

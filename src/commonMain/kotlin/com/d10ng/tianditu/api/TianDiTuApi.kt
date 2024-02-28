@@ -5,6 +5,7 @@ import com.d10ng.http.Http
 import com.d10ng.tianditu.TianDiTuApiManager
 import com.d10ng.tianditu.bean.Geocode
 import com.d10ng.tianditu.bean.LocationSearch
+import com.d10ng.tianditu.bean.PerimeterSearch
 import com.d10ng.tianditu.bean.ReGeocode
 import com.d10ng.tianditu.constant.TokenType
 import io.ktor.client.call.*
@@ -100,6 +101,49 @@ object TianDiTuApi {
                 put("level", level)
                 put("mapBound", mapBound)
                 put("queryType", queryType)
+                put("start", start)
+                put("count", count)
+                if (dataTypes != null) put("dataTypes", dataTypes)
+                put("show", show)
+            }.toString())
+            parameter("type", "query")
+            parameter("tk", TianDiTuApiManager.getToken())
+        }.body()
+    }
+
+    /**
+     * 周边搜索
+     * @param keyWord String 搜索的关键字
+     * @param lng Double 经度
+     * @param lat Double 纬度
+     * @param queryRadius Int 查询半径，单位：米，默认10000米，最大10000米。
+     * @param start Int 返回结果起始位（用于分页和缓存）默认0，取值范围0-300。
+     * @param count Int 返回的结果数量（用于分页和缓存）默认100，取值范围1-300。
+     * @param dataTypes String? 数据分类（分类编码表），参数可以分类名称或分类编码。多个分类用","隔开(英文逗号)。
+     * @param show Int 返回poi结果信息类别，取值为1，则返回基本poi信息； 取值为2，则返回详细poi信息。
+     */
+    suspend fun getPerimeterSearch(
+        keyWord: String,
+        lng: Double,
+        lat: Double,
+        queryRadius: Int = 10000,
+
+        start: Int = 0,
+        count: Int = 100,
+        dataTypes: String? = null,
+        show: Int = 1
+    ): PerimeterSearch? = Api.handler {
+        it.get("${TianDiTuApiManager.baseUrl}/v2/search"){
+            if (TianDiTuApiManager.getTokenType() != TokenType.SERVER) {
+                headers {
+                    append("User-Agent", "Mozilla/5.0")
+                }
+            }
+            parameter("postStr", buildJsonObject {
+                put("keyWord", keyWord)
+                put("queryRadius", queryRadius)
+                put("pointLonlat", "$lng,$lat")
+                put("queryType", 3)
                 put("start", start)
                 put("count", count)
                 if (dataTypes != null) put("dataTypes", dataTypes)

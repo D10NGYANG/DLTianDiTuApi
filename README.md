@@ -15,7 +15,7 @@ allprojects {
 ```build.gradle
 dependencies {
   // 天地图API
-  implementation 'com.github.D10NGYANG:DLTianDiTuApi:0.5.8'
+  implementation 'com.github.D10NGYANG:DLTianDiTuApi:0.5.9'
   // 网络请求封装库
   implementation "com.github.D10NGYANG:DLHttpUtil:0.9.3"
   // 协程

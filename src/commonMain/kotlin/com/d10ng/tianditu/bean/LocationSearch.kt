@@ -52,6 +52,8 @@ data class LocationSearch(
 
     @Serializable
     data class Poi(
+        @SerialName("eaddress")
+        var eaddress: String = "",
         @SerialName("address")
         var address: String = "",
         @SerialName("hotPointID")
@@ -60,6 +62,8 @@ data class LocationSearch(
         var lonlat: String = "",
         @SerialName("name")
         var name: String = "",
+        @SerialName("ename")
+        var ename: String = "",
         @SerialName("phone")
         var phone: String = "",
         @SerialName("poiType")
@@ -67,7 +71,23 @@ data class LocationSearch(
         @SerialName("source")
         var source: String = "",
         @SerialName("stationData")
-        var stationData: List<StationData> = listOf()
+        var stationData: List<StationData> = listOf(),
+        @SerialName("province")
+        var province: String = "",
+        @SerialName("provinceCode")
+        var provinceCode: String = "",
+        @SerialName("city")
+        var city: String = "",
+        @SerialName("cityCode")
+        var cityCode: String = "",
+        @SerialName("county")
+        var county: String = "",
+        @SerialName("countyCode")
+        var countyCode: String = "",
+        @SerialName("typeName")
+        var typeName: String = "",
+        @SerialName("typeCode")
+        var typeCode: String = "",
     ) {
         @Serializable
         data class StationData(
