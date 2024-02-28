@@ -10,7 +10,6 @@ import com.d10ng.tianditu.constant.TokenType
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
@@ -67,11 +66,15 @@ object TianDiTuApi {
 
     /**
      * 地名搜索V2.0
-     * @param keyWord String
-     * @param specify String?
-     * @param start Int
-     * @param count Int
-     * @param show Int
+     * @param keyWord String 搜索的关键字。
+     * @param mapBound String 查询的地图范围“minx,miny,maxx,maxy”，默认为全球范围-180,-90至180,90。
+     * @param level Int 目前查询的级别，取值范围1-18，默认18。
+     * @param specify String? 指定行政区的国标码（行政区划编码表）严格按照行政区划编码表中的（名称，gb码）。如指定的行政区划编码是省以上级别则返回是统计数据（不包括直辖市），9位国标码，如：北京：156110000或北京。
+     * @param queryType Int 搜索类型，1:普通搜索（含地铁公交） 7：地名搜索
+     * @param start Int 返回结果起始位（用于分页和缓存）默认0，取值范围0-300。
+     * @param count Int 返回的结果数量（用于分页和缓存）默认100，取值范围1-300。
+     * @param dataTypes String? 数据分类（分类编码表），参数可以分类名称或分类编码。多个分类用","隔开(英文逗号)。
+     * @param show Int 返回poi结果信息类别，取值为1，则返回基本poi信息； 取值为2，则返回详细poi信息。
      * @return LocationSearch?
      */
     suspend fun getLocationSearchV2(
@@ -81,7 +84,8 @@ object TianDiTuApi {
         mapBound: String = "-180,-90,180,90",
         queryType: Int = 1,
         start: Int = 0,
-        count: Int = 30,
+        count: Int = 100,
+        dataTypes: String? = null,
         show: Int = 1
     ): LocationSearch? = Api.handler {
         it.get("${TianDiTuApiManager.baseUrl}/v2/search") {
@@ -98,6 +102,7 @@ object TianDiTuApi {
                 put("queryType", queryType)
                 put("start", start)
                 put("count", count)
+                if (dataTypes != null) put("dataTypes", dataTypes)
                 put("show", show)
             }.toString())
             parameter("type", "query")

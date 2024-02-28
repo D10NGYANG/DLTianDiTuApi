@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "com.github.D10NGYANG"
-version = "0.5.7"
+version = "0.5.8"
 
 repositories {
     mavenCentral()
@@ -27,12 +27,12 @@ kotlin {
             dependencies {
                 implementation(kotlin("stdlib"))
                 // 协程
-                val kotlinCoroutinesVer = "1.7.3"
+                val kotlinCoroutinesVer = "1.8.0"
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVer")
                 // 网络请求封装库
-                implementation("com.github.D10NGYANG:DLHttpUtil:0.9.2")
+                implementation("com.github.D10NGYANG:DLHttpUtil:0.9.3")
                 // JSON序列化
-                val kotlinSerializationJsonVer = "1.6.2"
+                val kotlinSerializationJsonVer = "1.6.3"
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationJsonVer")
             }
         }

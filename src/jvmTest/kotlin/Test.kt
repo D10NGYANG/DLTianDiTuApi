@@ -1,9 +1,7 @@
 import com.d10ng.http.Http
 import com.d10ng.tianditu.TianDiTuApiManager
 import com.d10ng.tianditu.api.TianDiTuApi
-import com.d10ng.tianditu.bean.Geocode
 import com.d10ng.tianditu.constant.TokenType
-import io.ktor.util.reflect.*
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.junit.Test
@@ -17,7 +15,7 @@ class Test {
         TianDiTuApiManager.init("fb606872d339bbfe541c04775909d279", TokenType.ANDROID)
 
         runBlocking {
-            launch {
+            val job = launch {
                 Http.errorResponseFlow.collect {
                     println(it)
                 }
@@ -28,6 +26,7 @@ class Test {
             println(reGeocode)
             val location = TianDiTuApi.getLocationSearchV2("广东北京路")
             println(location)
+            job.cancel()
         }
     }
 }
