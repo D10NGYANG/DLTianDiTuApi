@@ -1,5 +1,5 @@
 # DLTianDiTuApi
-天地图WEB API服务封装
+天地图 WEB API 服务封装
 
 # 使用说明
 1. 添加仓库
@@ -14,14 +14,18 @@ allprojects {
 2. 添加依赖
 ```build.gradle
 dependencies {
-  // 天地图API
-  implementation 'com.github.D10NGYANG:DLTianDiTuApi:0.5.9'
-  // 网络请求封装库
-  implementation "com.github.D10NGYANG:DLHttpUtil:0.9.3"
-  // 协程
-  implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0"
-  // JSON序列化
-  implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3"
+    // 天地图API
+    implementation 'com.github.D10NGYANG:DLTianDiTuApi:1.0.0'
+    // 协程
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1'
+    // JSON序列化
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3'
+    // ktor核心库
+    implementation 'io.ktor:ktor-client-core:2.3.11'
+    // 网络请求封装库
+    implementation 'com.github.D10NGYANG:DLHttpUtil:1.0.0'
+    // 通用工具
+    implementation 'com.github.D10NGYANG:DLCommonUtil:0.1.2'
 }
 ```
 3. 混淆

@@ -1,7 +1,7 @@
 package com.d10ng.tianditu.api
 
+import com.d10ng.common.transform.json
 import com.d10ng.http.Api
-import com.d10ng.http.Http
 import com.d10ng.tianditu.TianDiTuApiManager
 import com.d10ng.tianditu.bean.Geocode
 import com.d10ng.tianditu.bean.LocationSearch
@@ -23,8 +23,8 @@ object TianDiTuApi {
      */
     suspend fun getGeocode(
         keyWord: String
-    ): Geocode? = Api.handler {
-        val text = it.get("${TianDiTuApiManager.baseUrl}/geocoder") {
+    ): Geocode? = Api.handle {
+        val text = it.get("${TianDiTuApiManager.BASE_URL}/geocoder") {
             if (TianDiTuApiManager.getTokenType() != TokenType.SERVER) {
                 headers {
                     append("User-Agent", "Mozilla/5.0")
@@ -35,7 +35,7 @@ object TianDiTuApi {
             }.toString())
             parameter("tk", TianDiTuApiManager.getToken())
         }.bodyAsText()
-        Http.json.decodeFromString(text)
+        json.decodeFromString(text)
     }
 
     /**
@@ -47,8 +47,8 @@ object TianDiTuApi {
     suspend fun getReGeocode(
         lng: Double,
         lat: Double
-    ): ReGeocode? = Api.handler {
-        val text = it.get("${TianDiTuApiManager.baseUrl}/geocoder") {
+    ): ReGeocode? = Api.handle {
+        val text = it.get("${TianDiTuApiManager.BASE_URL}/geocoder") {
             if (TianDiTuApiManager.getTokenType() != TokenType.SERVER) {
                 headers {
                     append("User-Agent", "Mozilla/5.0")
@@ -62,7 +62,7 @@ object TianDiTuApi {
             parameter("type", "geocode")
             parameter("tk", TianDiTuApiManager.getToken())
         }.bodyAsText()
-        Http.json.decodeFromString(text)
+        json.decodeFromString(text)
     }
 
     /**
@@ -88,8 +88,8 @@ object TianDiTuApi {
         count: Int = 100,
         dataTypes: String? = null,
         show: Int = 1
-    ): LocationSearch? = Api.handler {
-        it.get("${TianDiTuApiManager.baseUrl}/v2/search") {
+    ): LocationSearch? = Api.handle {
+        it.get("${TianDiTuApiManager.BASE_URL}/v2/search") {
             if (TianDiTuApiManager.getTokenType() != TokenType.SERVER) {
                 headers {
                     append("User-Agent", "Mozilla/5.0")
@@ -131,8 +131,8 @@ object TianDiTuApi {
         count: Int = 100,
         dataTypes: String? = null,
         show: Int = 1
-    ): PerimeterSearch? = Api.handler {
-        it.get("${TianDiTuApiManager.baseUrl}/v2/search"){
+    ): PerimeterSearch? = Api.handle {
+        it.get("${TianDiTuApiManager.BASE_URL}/v2/search"){
             if (TianDiTuApiManager.getTokenType() != TokenType.SERVER) {
                 headers {
                     append("User-Agent", "Mozilla/5.0")

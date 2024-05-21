@@ -5,7 +5,7 @@ import com.d10ng.tianditu.constant.TokenType
 object TianDiTuApiManager {
 
     /** 访问域名 */
-    const val baseUrl: String  = "https://api.tianditu.gov.cn"
+    internal const val BASE_URL: String  = "https://api.tianditu.gov.cn"
 
     /** 访问TOKEN */
     private var token: String = ""
