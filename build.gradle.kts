@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "com.github.D10NGYANG"
-version = "1.0.0"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
@@ -33,10 +33,14 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVer")
                 // JSON序列化
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationJsonVer")
-                // ktor核心库
+                // ktor客户端
                 implementation("io.ktor:ktor-client-core:$kotlinKtorVer")
+                implementation("io.ktor:ktor-client-cio:$kotlinKtorVer")
+                implementation("io.ktor:ktor-client-logging:$kotlinKtorVer")
+                implementation("io.ktor:ktor-client-content-negotiation:$kotlinKtorVer")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:$kotlinKtorVer")
                 // 网络请求封装库
-                implementation("com.github.D10NGYANG:DLHttpUtil:1.0.0")
+                implementation("com.github.D10NGYANG:DLHttpUtil:1.0.1")
                 // 通用工具
                 implementation("com.github.D10NGYANG:DLCommonUtil:0.1.2")
             }
@@ -44,10 +48,6 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation("io.ktor:ktor-client-cio:$kotlinKtorVer")
-                implementation("io.ktor:ktor-client-logging:$kotlinKtorVer")
-                implementation("io.ktor:ktor-client-content-negotiation:$kotlinKtorVer")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:$kotlinKtorVer")
             }
         }
     }

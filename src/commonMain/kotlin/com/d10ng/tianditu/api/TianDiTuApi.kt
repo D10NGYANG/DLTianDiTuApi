@@ -14,7 +14,9 @@ import io.ktor.client.statement.*
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
-object TianDiTuApi {
+object TianDiTuApi: Api(
+    client = TianDiTuApiManager.client
+) {
 
     /**
      * 地理编码
@@ -23,7 +25,7 @@ object TianDiTuApi {
      */
     suspend fun getGeocode(
         keyWord: String
-    ): Geocode? = Api.handle {
+    ): Geocode? = handle {
         val text = it.get("${TianDiTuApiManager.BASE_URL}/geocoder") {
             if (TianDiTuApiManager.getTokenType() != TokenType.SERVER) {
                 headers {
@@ -47,7 +49,7 @@ object TianDiTuApi {
     suspend fun getReGeocode(
         lng: Double,
         lat: Double
-    ): ReGeocode? = Api.handle {
+    ): ReGeocode? = handle {
         val text = it.get("${TianDiTuApiManager.BASE_URL}/geocoder") {
             if (TianDiTuApiManager.getTokenType() != TokenType.SERVER) {
                 headers {
@@ -88,7 +90,7 @@ object TianDiTuApi {
         count: Int = 100,
         dataTypes: String? = null,
         show: Int = 1
-    ): LocationSearch? = Api.handle {
+    ): LocationSearch? = handle {
         it.get("${TianDiTuApiManager.BASE_URL}/v2/search") {
             if (TianDiTuApiManager.getTokenType() != TokenType.SERVER) {
                 headers {
@@ -131,7 +133,7 @@ object TianDiTuApi {
         count: Int = 100,
         dataTypes: String? = null,
         show: Int = 1
-    ): PerimeterSearch? = Api.handle {
+    ): PerimeterSearch? = handle {
         it.get("${TianDiTuApiManager.BASE_URL}/v2/search"){
             if (TianDiTuApiManager.getTokenType() != TokenType.SERVER) {
                 headers {
