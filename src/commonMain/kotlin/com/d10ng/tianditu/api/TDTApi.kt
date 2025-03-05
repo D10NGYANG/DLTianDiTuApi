@@ -1,33 +1,67 @@
 package com.d10ng.tianditu.api
 
-import com.d10ng.common.transform.json
-import com.d10ng.http.Api
-import com.d10ng.tianditu.TianDiTuApiManager
 import com.d10ng.tianditu.bean.Geocode
 import com.d10ng.tianditu.bean.LocationSearch
 import com.d10ng.tianditu.bean.PerimeterSearch
 import com.d10ng.tianditu.bean.ReGeocode
 import com.d10ng.tianditu.constant.TokenType
+import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
-object TianDiTuApi: Api(
-    client = TianDiTuApiManager.client
-) {
+object TDTApi {
+
+    /** 访问域名 */
+    internal const val BASE_URL: String  = "https://api.tianditu.gov.cn"
+
+    /** 访问TOKEN */
+    private var token: String = ""
+
+    /** TOKEN类型 */
+    private var tokenType = TokenType.WEB
+
+    /** ktor客户端 */
+    private var client = HttpClient()
+
+    /**
+     * 初始化
+     * @param token String
+     * @param type TokenType
+     * @param client HttpClient
+     */
+    fun init(token: String, type: TokenType = TokenType.WEB, client: HttpClient) {
+        this.token = token
+        this.tokenType = type
+        this.client = client
+    }
+
+    private suspend fun <T> apiCall(call: suspend HttpClient.() -> T): Result<T> = runCatching { client.call() }
+
+    val useJson = Json {
+        // 忽略JSON字符串里有但data class中没有的key
+        ignoreUnknownKeys = true
+        // 如果接收到的JSON字符串的value为null，但是data class中的对应属性不能为null，那就使用属性的默认值
+        coerceInputValues = true
+        // 如果创建data class实例时有些属性没有赋值，那就使用默认值进行转换成JSON字符串
+        encodeDefaults = true
+        // 属性放宽
+        isLenient = true
+    }
 
     /**
      * 地理编码
      * @param keyWord String 需要获取经纬度的详细地址
-     * @return Geocode?
+     * @return Result<Geocode>
      */
     suspend fun getGeocode(
         keyWord: String
-    ): Geocode? = handle {
-        val text = it.get("${TianDiTuApiManager.BASE_URL}/geocoder") {
-            if (TianDiTuApiManager.getTokenType() != TokenType.SERVER) {
+    ): Result<Geocode> = apiCall {
+        val text = get("${BASE_URL}/geocoder") {
+            if (tokenType != TokenType.SERVER) {
                 headers {
                     append("User-Agent", "Mozilla/5.0")
                 }
@@ -35,9 +69,9 @@ object TianDiTuApi: Api(
             parameter("ds", buildJsonObject {
                 put("keyWord", keyWord)
             }.toString())
-            parameter("tk", TianDiTuApiManager.getToken())
+            parameter("tk", token)
         }.bodyAsText()
-        json.decodeFromString(text)
+        useJson.decodeFromString(text)
     }
 
     /**
@@ -49,9 +83,9 @@ object TianDiTuApi: Api(
     suspend fun getReGeocode(
         lng: Double,
         lat: Double
-    ): ReGeocode? = handle {
-        val text = it.get("${TianDiTuApiManager.BASE_URL}/geocoder") {
-            if (TianDiTuApiManager.getTokenType() != TokenType.SERVER) {
+    ): Result<ReGeocode> = apiCall {
+        val text = get("${BASE_URL}/geocoder") {
+            if (tokenType != TokenType.SERVER) {
                 headers {
                     append("User-Agent", "Mozilla/5.0")
                 }
@@ -62,9 +96,9 @@ object TianDiTuApi: Api(
                 put("ver", 1)
             }.toString())
             parameter("type", "geocode")
-            parameter("tk", TianDiTuApiManager.getToken())
+            parameter("tk", token)
         }.bodyAsText()
-        json.decodeFromString(text)
+        useJson.decodeFromString(text)
     }
 
     /**
@@ -90,9 +124,9 @@ object TianDiTuApi: Api(
         count: Int = 100,
         dataTypes: String? = null,
         show: Int = 1
-    ): LocationSearch? = handle {
-        it.get("${TianDiTuApiManager.BASE_URL}/v2/search") {
-            if (TianDiTuApiManager.getTokenType() != TokenType.SERVER) {
+    ): Result<LocationSearch> = apiCall {
+        get("${BASE_URL}/v2/search") {
+            if (tokenType != TokenType.SERVER) {
                 headers {
                     append("User-Agent", "Mozilla/5.0")
                 }
@@ -109,7 +143,7 @@ object TianDiTuApi: Api(
                 put("show", show)
             }.toString())
             parameter("type", "query")
-            parameter("tk", TianDiTuApiManager.getToken())
+            parameter("tk", token)
         }.body()
     }
 
@@ -133,9 +167,9 @@ object TianDiTuApi: Api(
         count: Int = 100,
         dataTypes: String? = null,
         show: Int = 1
-    ): PerimeterSearch? = handle {
-        it.get("${TianDiTuApiManager.BASE_URL}/v2/search"){
-            if (TianDiTuApiManager.getTokenType() != TokenType.SERVER) {
+    ): Result<PerimeterSearch> = apiCall {
+        get("${BASE_URL}/v2/search"){
+            if (tokenType != TokenType.SERVER) {
                 headers {
                     append("User-Agent", "Mozilla/5.0")
                 }
@@ -151,7 +185,7 @@ object TianDiTuApi: Api(
                 put("show", show)
             }.toString())
             parameter("type", "query")
-            parameter("tk", TianDiTuApiManager.getToken())
+            parameter("tk", token)
         }.body()
     }
 }

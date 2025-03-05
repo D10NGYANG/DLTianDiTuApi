@@ -1,53 +1,64 @@
 val bds100MavenUsername: String by project
 val bds100MavenPassword: String by project
+val ktorVersion = "3.1.1"
 
 plugins {
-    kotlin("multiplatform") version "1.9.23"
-    kotlin("plugin.serialization") version "1.9.23"
+    kotlin("multiplatform") version "2.1.10"
+    kotlin("plugin.serialization") version "2.1.10"
     id("maven-publish")
-    id("com.github.ben-manes.versions") version "0.51.0"
+    id("com.github.ben-manes.versions") version "0.52.0"
 }
 
 group = "com.github.D10NGYANG"
-version = "1.0.1"
+version = "1.1.0"
 
 repositories {
+    google {
+        mavenContent {
+            includeGroupAndSubgroups("androidx")
+            includeGroupAndSubgroups("com.android")
+            includeGroupAndSubgroups("com.google")
+        }
+    }
     mavenCentral()
     maven("https://raw.githubusercontent.com/D10NGYANG/maven-repo/main/repository")
 }
 
 kotlin {
-    jvm {
-        jvmToolchain(8)
-        withJava()
-    }
+    jvmToolchain(8)
+    jvm()
+    js(IR) { nodejs() }
+    iosArm64()
+    iosSimulatorArm64()
+    iosX64()
+    macosArm64()
+    macosX64()
+    linuxX64()
+    linuxArm64()
 
     sourceSets {
-        val kotlinKtorVer = "2.3.11"
-        val kotlinSerializationJsonVer = "1.6.3"
-        val kotlinCoroutinesVer = "1.8.1"
         val commonMain by getting {
             dependencies {
-                implementation(kotlin("stdlib"))
-                // 协程
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinCoroutinesVer")
-                // JSON序列化
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:$kotlinSerializationJsonVer")
+                // serialization
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
                 // ktor客户端
-                implementation("io.ktor:ktor-client-core:$kotlinKtorVer")
-                implementation("io.ktor:ktor-client-cio:$kotlinKtorVer")
-                implementation("io.ktor:ktor-client-logging:$kotlinKtorVer")
-                implementation("io.ktor:ktor-client-content-negotiation:$kotlinKtorVer")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:$kotlinKtorVer")
-                // 网络请求封装库
-                implementation("com.github.D10NGYANG:DLHttpUtil:1.0.1")
-                // 通用工具
-                implementation("com.github.D10NGYANG:DLCommonUtil:0.1.2")
+                implementation("io.ktor:ktor-client-core:$ktorVersion")
+                implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+            }
+        }
+        val jvmTest by getting {
+            dependencies {
+                // 协程
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+                // ktor客户端
+                implementation("io.ktor:ktor-client-cio:$ktorVersion")
+                implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+                implementation("io.ktor:ktor-client-logging:$ktorVersion")
             }
         }
     }
