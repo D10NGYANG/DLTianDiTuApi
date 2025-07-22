@@ -1,7 +1,7 @@
 # DLTianDiTuApi
 
-![Version](https://img.shields.io/badge/version-1.1.0-brightgreen)
-![Kotlin](https://img.shields.io/badge/kotlin-2.1.10-blue)
+![Version](https://img.shields.io/badge/version-1.2.0-brightgreen)
+![Kotlin](https://img.shields.io/badge/kotlin-2.2.0-blue)
 ![Platform](https://img.shields.io/badge/platform-jvm%20%7C%20js%20%7C%20ios%20%7C%20macos%20%7C%20linux-lightgrey)
 
 天地图 WEB API 服务封装
@@ -32,18 +32,18 @@ dependencyResolutionManagement {
 // build.gradle.kts
 dependencies {
     // 天地图API
-    implementation("com.github.D10NGYANG:DLTianDiTuApi:1.1.0")
+    implementation("com.github.D10NGYANG:DLTianDiTuApi:1.2.0")
     // 协程
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
     // JSON序列化
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
     // ktor客户端
-    implementation("io.ktor:ktor-client-core:3.1.1")
+    implementation("io.ktor:ktor-client-core:3.2.2")
     // ktor引擎，可选其他的
-    implementation("io.ktor:ktor-client-cio:3.1.1")
+    implementation("io.ktor:ktor-client-cio:3.2.2")
     // 必须，内容序列化
-    implementation("io.ktor:ktor-client-content-negotiation:3.1.1")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:3.1.1")
+    implementation("io.ktor:ktor-client-content-negotiation:3.2.2")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:3.2.2")
 }
 ```
 

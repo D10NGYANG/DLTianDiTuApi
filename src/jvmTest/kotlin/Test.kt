@@ -12,8 +12,9 @@ class Test {
 
     @Test
     fun test() {
-
-        TDTApi.init("fb606872d339bbfe541c04775909d279", TokenType.ANDROID, HttpClient(CIO) {
+        val token = System.getProperty("myTiandituToken")
+            ?: throw IllegalStateException("myTiandituToken property not set")
+        TDTApi.init(token, TokenType.ANDROID, HttpClient(CIO) {
             install(ContentNegotiation) {
                 json(TDTApi.useJson)
             }

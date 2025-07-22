@@ -1,16 +1,16 @@
 val bds100MavenUsername: String by project
 val bds100MavenPassword: String by project
-val ktorVersion = "3.1.1"
+val ktorVersion = "3.2.2"
 
 plugins {
-    kotlin("multiplatform") version "2.1.10"
-    kotlin("plugin.serialization") version "2.1.10"
+    kotlin("multiplatform") version "2.2.0"
+    kotlin("plugin.serialization") version "2.2.0"
     id("maven-publish")
     id("com.github.ben-manes.versions") version "0.52.0"
 }
 
 group = "com.github.D10NGYANG"
-version = "1.1.0"
+version = "1.2.0"
 
 repositories {
     google {
@@ -26,7 +26,11 @@ repositories {
 
 kotlin {
     jvmToolchain(8)
-    jvm()
+    jvm {
+        testRuns["test"].executionTask.configure {
+            useJUnit()
+        }
+    }
     js(IR) { nodejs() }
     iosArm64()
     iosSimulatorArm64()
@@ -37,24 +41,29 @@ kotlin {
     linuxArm64()
 
     sourceSets {
-        val commonMain by getting {
+        all {
+            languageSettings.apply {
+                optIn("kotlin.js.ExperimentalJsExport")
+            }
+        }
+        commonMain {
             dependencies {
                 // serialization
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
                 // ktor客户端
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
             }
         }
-        val commonTest by getting {
+        commonTest {
             dependencies {
                 implementation(kotlin("test"))
             }
         }
-        val jvmTest by getting {
+        jvmTest {
             dependencies {
                 // 协程
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
                 // ktor客户端
                 implementation("io.ktor:ktor-client-cio:$ktorVersion")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
@@ -90,4 +99,8 @@ tasks.withType<com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
     rejectVersionIf {
         isNonStable(candidate.version)
     }
+}
+
+tasks.withType<Test> {
+    systemProperty("myTiandituToken", project.findProperty("myTiandituToken") ?: "")
 }
